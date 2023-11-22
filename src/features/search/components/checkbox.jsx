@@ -22,7 +22,6 @@ export function Checkbox({ option, optionIdx, section }) {
         type="checkbox"
         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
         onChange={(e) => {
-          console.log();
           handleFilter(e.target.checked, section.id, option.value);
           setChecked(
             compostiteFilter[`${section.id}`].includes(option.value)

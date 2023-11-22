@@ -2,8 +2,8 @@ import axios from "axios";
 
 const apiUrl =
   process.env.NODE_ENV === "development"
-    ? process.env.DEV_API_URL
-    : process.env.PROD_API_URL;
+    ? process.env.NEXT_PUBLIC_DEV_API_URL
+    : process.env.NEXT_PUBLIC_API_URL;
 
 export const api = axios.create({
   baseURL: apiUrl,

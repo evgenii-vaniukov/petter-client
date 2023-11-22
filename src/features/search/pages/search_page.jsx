@@ -2,6 +2,7 @@
 import { Button_L } from "@/components/buttons";
 import { Footer } from "@/components/footer";
 import { filters } from "@/features/search/constants/filters";
+import { getPetsWithFilters } from "@/repository/pet/pet_repository";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
 import {
@@ -14,7 +15,6 @@ import { Checkbox } from "../components/checkbox";
 import { PetCard } from "../components/pet_card";
 import { PetSearchBar } from "../components/pet_search_bar";
 import { useSearchContext } from "../context/search_context";
-
 const navigation = {
   pages: [{ name: "My pets", href: "#" }],
 };
@@ -27,6 +27,7 @@ export function SearchPage({ pets }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [searchBarIsOpened, setSearchBarIsOpened] = useState(false);
+  const [petList, setPetList] = useState(pets);
 
   const { compostiteFilter, setCompositeFilter } = useSearchContext();
 
@@ -46,6 +47,11 @@ export function SearchPage({ pets }) {
       JSON.stringify(compostiteFilter),
     );
   }, [compostiteFilter]);
+
+  async function searchPets() {
+    const data = await getPetsWithFilters(compostiteFilter);
+    setPetList(data);
+  }
 
   return (
     <div className="bg-white">
@@ -350,7 +356,7 @@ export function SearchPage({ pets }) {
                   ))}
                 </form>
               </div>
-              <Button_L>Search</Button_L>
+              <Button_L onClick={searchPets}>Search</Button_L>
             </aside>
 
             <section
@@ -358,7 +364,7 @@ export function SearchPage({ pets }) {
               className="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3"
             >
               <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
-                {pets.map((pet) => (
+                {petList.map((pet) => (
                   <PetCard key={pet.id} pet={pet} />
                 ))}
               </div>
