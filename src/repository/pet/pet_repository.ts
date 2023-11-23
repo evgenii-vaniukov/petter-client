@@ -24,3 +24,12 @@ export const getPetsWithFilters = cache(async (filters) => {
     console.error(error);
   }
 });
+
+export const getPetById = cache(async (id) => {
+  try {
+    const response = await api.get(`/pets/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+});
