@@ -1,5 +1,6 @@
 "use client";
 import { ProfileIcon } from "@/components/navbar/profile_icon";
+import { LogIn } from "@/features/auth/components/log_in_modal";
 import { useAuthContext } from "@/features/auth/context/auth_context";
 import { Dialog, Transition } from "@headlessui/react";
 import {
@@ -16,9 +17,14 @@ function classNames(...classes) {
 export function Navbar({ pets }) {
   const [searchBarIsOpened, setSearchBarIsOpened] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { loggedIn, setLoggedIn } = useAuthContext();
+  const [logInModalOpen, setLogInModalOpen] = useState(false);
+  const { loggedIn } = useAuthContext();
   return (
     <div>
+      <LogIn
+        logInModalOpen={logInModalOpen}
+        setLogInModalOpen={setLogInModalOpen}
+      />
       <PetSearchBar
         open={searchBarIsOpened}
         setOpen={setSearchBarIsOpened}
@@ -86,7 +92,6 @@ export function Navbar({ pets }) {
                   <div className="flow-root">
                     {!loggedIn && (
                       <button
-                        href="#"
                         className="-m-2 block p-2 font-medium text-gray-900"
                         onClick={() => {
                           setLogInModalOpen(true);
@@ -176,7 +181,7 @@ export function Navbar({ pets }) {
                 </div>
 
                 {/* Profile dropdown */}
-                <ProfileIcon />
+                {loggedIn && <ProfileIcon />}
               </div>
             </div>
           </div>

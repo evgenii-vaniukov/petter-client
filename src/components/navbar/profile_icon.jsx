@@ -1,3 +1,4 @@
+import { useAuthContext } from "@/features/auth/context/auth_context";
 import { Menu, Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
@@ -6,6 +7,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 export function ProfileIcon() {
+  const { setLoggedIn } = useAuthContext();
   return (
     <Menu as="div" className="relative ml-4 flex-shrink-0">
       <div>
@@ -28,7 +30,6 @@ export function ProfileIcon() {
           <Menu.Item>
             {({ active }) => (
               <a
-                href="#"
                 className={classNames(
                   active ? "bg-gray-100" : "",
                   "block px-4 py-2 text-sm text-gray-700",
@@ -42,7 +43,9 @@ export function ProfileIcon() {
           <Menu.Item>
             {({ active }) => (
               <a
-                href="#"
+                onClick={() => {
+                  setLoggedIn(false);
+                }}
                 className={classNames(
                   active ? "bg-gray-100" : "",
                   "block px-4 py-2 text-sm text-gray-700",

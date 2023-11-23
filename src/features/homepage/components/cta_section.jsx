@@ -20,7 +20,7 @@ export function CTA() {
                 router.push(`/search`);
               }}
             >
-              Search for a pet
+              Advanced Search
             </button>
           </div>
           <svg
