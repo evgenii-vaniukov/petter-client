@@ -1,6 +1,8 @@
-import { PetPage } from "@/features/pet_details/index";
-import { getPetById } from "@/repository/pet/pet_repository";
 export default function PetDetails({ params: { id } }) {
-  const pet = getPetById(id);
-  return <PetPage pet={pet} />;
+  return (
+    <div>
+      <h1>Pet Details</h1>
+      <h2>{id}</h2>
+    </div>
+  );
 }
