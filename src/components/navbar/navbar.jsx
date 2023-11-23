@@ -1,6 +1,7 @@
 "use client";
 import { ProfileIcon } from "@/components/navbar/profile_icon";
 import { LogIn } from "@/features/auth/components/log_in_modal";
+import { SignUp } from "@/features/auth/components/sign_up_modal";
 import { useAuthContext } from "@/features/auth/context/auth_context";
 import { Dialog, Transition } from "@headlessui/react";
 import {
@@ -18,12 +19,18 @@ export function Navbar({ pets }) {
   const [searchBarIsOpened, setSearchBarIsOpened] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [logInModalOpen, setLogInModalOpen] = useState(false);
+  const [signUpModalOpen, setSignUpModalOpen] = useState(false);
   const { loggedIn } = useAuthContext();
   return (
     <div>
       <LogIn
         logInModalOpen={logInModalOpen}
         setLogInModalOpen={setLogInModalOpen}
+        setSignUpModalOpen={setSignUpModalOpen}
+      />
+      <SignUp
+        signUpModalOpen={signUpModalOpen}
+        setSignUpModalOpen={setSignUpModalOpen}
       />
       <PetSearchBar
         open={searchBarIsOpened}

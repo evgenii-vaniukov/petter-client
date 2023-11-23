@@ -50,10 +50,6 @@ export function SearchPage({ pets }) {
 
   return (
     <div className="bg-white">
-      {/* <LogIn
-        logInModalOpen={logInModalOpen}
-        setLogInModalOpen={setLogInModalOpen}
-      /> */}
       <Navbar pets={pets} />
       <div>
         {/* Mobile filter dialog */}

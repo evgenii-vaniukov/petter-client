@@ -2,7 +2,8 @@ import { login } from "@/repository/auth/auth_repository";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { useAuthContext } from "../context/auth_context";
-export function LogInForm({ setLogInModalOpen }) {
+
+export function LogInForm({ setLogInModalOpen, setSignUpModalOpen }) {
   const router = useRouter();
   const { loggedIn, setLoggedIn, setToken } = useAuthContext();
   const emailRef = useRef(null);
@@ -13,8 +14,8 @@ export function LogInForm({ setLogInModalOpen }) {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     const response = await login(email, password);
-    if (response.status === 401) {
-      alert("Incorrect email or password");
+    if (response.status === 409) {
+      alert("User already exists");
       return;
     }
     setLoggedIn(true);
@@ -103,7 +104,10 @@ export function LogInForm({ setLogInModalOpen }) {
             Not a member?{" "}
             <button
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-              onClick={() => router.push("/signup")}
+              onClick={() => {
+                setLogInModalOpen(false);
+                setSignUpModalOpen(true);
+              }}
             >
               Create an account
             </button>

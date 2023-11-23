@@ -1,7 +1,6 @@
 import { LogIn } from "@/features/auth/components/log_in_modal";
 import { useAuthContext } from "@/features/auth/context/auth_context";
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
-import { StarIcon } from "@heroicons/react/20/solid";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
 const product = {
@@ -102,33 +101,11 @@ export function PetDetails({ open, setOpen, pet }) {
                           Product information
                         </h3>
 
-                        <p className="text-2xl text-gray-900">
-                          {product.price}
-                        </p>
-
-                        {/* Reviews */}
-                        <div className="mt-3">
-                          <h4 className="sr-only">Reviews</h4>
-                          <div className="flex items-center">
-                            <div className="flex items-center">
-                              {[0, 1, 2, 3, 4].map((rating) => (
-                                <StarIcon
-                                  key={rating}
-                                  className={classNames(
-                                    product.rating > rating
-                                      ? "text-gray-400"
-                                      : "text-gray-200",
-                                    "h-5 w-5 flex-shrink-0",
-                                  )}
-                                  aria-hidden="true"
-                                />
-                              ))}
-                            </div>
-                            <p className="sr-only">
-                              {product.rating} out of 5 stars
-                            </p>
-                          </div>
-                        </div>
+                        {pet.adoptionStatus ? (
+                          <p className="text-sm text-gray-500">Adopted</p>
+                        ) : (
+                          <p className="text-sm text-green-500">Available</p>
+                        )}
 
                         <div className="mt-6">
                           <h4 className="sr-only">Description</h4>
@@ -216,12 +193,15 @@ export function PetDetails({ open, setOpen, pet }) {
                           </div>
 
                           <p className="absolute left-4 top-4 text-center sm:static sm:mt-6">
-                            <a
-                              href={product.href}
+                            <button
                               className="font-medium text-indigo-600 hover:text-indigo-500"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setOpen(false);
+                              }}
                             >
-                              View full details
-                            </a>
+                              Save for later
+                            </button>
                           </p>
                         </form>
                       </section>
