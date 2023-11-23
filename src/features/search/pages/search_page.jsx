@@ -1,6 +1,9 @@
 "use client";
 import { Button_L } from "@/components/buttons";
 import { Footer } from "@/components/footer";
+import { ProfileIcon } from "@/components/navbar/profile_icon";
+import { LogIn } from "@/features/auth/components/log_in_modal";
+import { useAuthContext } from "@/features/auth/context/auth_context";
 import { filters } from "@/features/search/constants/filters";
 import { getPetsWithFilters } from "@/repository/pet/pet_repository";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
@@ -11,13 +14,10 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Fragment, useEffect, useState } from "react";
+import { PetSearchBar } from "../../../components/navbar/pet_search_bar";
 import { Checkbox } from "../components/checkbox";
-import { PetCard } from "../components/pet_card";
-import { PetSearchBar } from "../components/pet_search_bar";
+import { PetsList } from "../components/pets_list";
 import { useSearchContext } from "../context/search_context";
-const navigation = {
-  pages: [{ name: "My pets", href: "#" }],
-};
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -28,8 +28,10 @@ export function SearchPage({ pets }) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [searchBarIsOpened, setSearchBarIsOpened] = useState(false);
   const [petList, setPetList] = useState(pets);
+  const [logInModalOpen, setLogInModalOpen] = useState(false);
 
   const { compostiteFilter, setCompositeFilter } = useSearchContext();
+  const { loggedIn, setLoggedIn } = useAuthContext();
 
   useEffect(() => {
     const savedCompostiteFilter = JSON.parse(
@@ -55,6 +57,10 @@ export function SearchPage({ pets }) {
 
   return (
     <div className="bg-white">
+      <LogIn
+        logInModalOpen={logInModalOpen}
+        setLogInModalOpen={setLogInModalOpen}
+      />
       <div>
         <PetSearchBar
           open={searchBarIsOpened}
@@ -104,27 +110,35 @@ export function SearchPage({ pets }) {
                   </div>
 
                   {/* Links */}
-                  <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                    {navigation.pages.map((page) => (
-                      <div key={page.name} className="flow-root">
-                        <a
-                          href={page.href}
-                          className="-m-2 block p-2 font-medium text-gray-900"
-                        >
-                          {page.name}
-                        </a>
-                      </div>
-                    ))}
-                  </div>
+                  {/* <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                    {navigation.pages.map((page) => {
+                      return (
+                        <div key={page.name} className="flow-root">
+                          <a
+                            href={page.href}
+                            className="-m-2 block p-2 font-medium text-gray-900"
+                          >
+                            {page.name}
+                          </a>
+                        </div>
+                      );
+                    })}
+                  </div> */}
 
                   <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                     <div className="flow-root">
-                      <a
-                        href="#"
-                        className="-m-2 block p-2 font-medium text-gray-900"
-                      >
-                        Sign in
-                      </a>
+                      {!loggedIn && (
+                        <button
+                          href="#"
+                          className="-m-2 block p-2 font-medium text-gray-900"
+                          onClick={() => {
+                            setLogInModalOpen(true);
+                            setMobileMenuOpen(false);
+                          }}
+                        >
+                          Sign in
+                        </button>
+                      )}
                     </div>
                   </div>
                 </Dialog.Panel>
@@ -163,7 +177,7 @@ export function SearchPage({ pets }) {
                 </div>
 
                 {/* Nav pages */}
-                <div className="hidden lg:ml-8 lg:block lg:self-stretch">
+                {/* <div className="hidden lg:ml-8 lg:block lg:self-stretch">
                   <div className="flex h-full space-x-8">
                     {navigation.pages.map((page) => (
                       <a
@@ -175,16 +189,21 @@ export function SearchPage({ pets }) {
                       </a>
                     ))}
                   </div>
-                </div>
+                </div> */}
 
                 <div className="ml-auto flex items-center">
                   <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                    <a
-                      href="#"
-                      className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                    >
-                      Sign in
-                    </a>
+                    {!loggedIn && (
+                      <button
+                        href="#"
+                        className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                        onClick={() => {
+                          setLogInModalOpen(true);
+                        }}
+                      >
+                        Sign in
+                      </button>
+                    )}
                   </div>
 
                   {/* Search */}
@@ -201,6 +220,9 @@ export function SearchPage({ pets }) {
                       />
                     </a>
                   </div>
+
+                  {/* Profile dropdown */}
+                  <ProfileIcon />
                 </div>
               </div>
             </div>
@@ -363,11 +385,7 @@ export function SearchPage({ pets }) {
               aria-labelledby="product-heading"
               className="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3"
             >
-              <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
-                {petList.map((pet) => (
-                  <PetCard key={pet.id} pet={pet} />
-                ))}
-              </div>
+              <PetsList petList={petList} />
             </section>
           </div>
         </main>

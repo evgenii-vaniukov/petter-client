@@ -11,13 +11,14 @@ export const getPets = cache(async () => {
 });
 
 export const getPetsWithFilters = cache(async (filters) => {
-  // const query = Object.entries(filters)
-  //   .map(([key, value]) => `${key}=${value[0]}`)
-  //   .join("&");
-  const query = "type=dog&adoptionStatus=true";
-
+  let query = "";
+  for (const [key, value] of Object.entries(filters)) {
+    for (const v of value as Array<String>) {
+      query += `${key}=${v}&`;
+    }
+  }
   try {
-    const response = await api.get(`/pets`);
+    const response = await api.get(`/pets?${query}`);
     return response.data;
   } catch (error) {
     console.error(error);

@@ -1,9 +1,11 @@
 import { Home } from "@/features/homepage/index";
+import { getPets } from "@/repository/pet/pet_repository";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const pets = await getPets();
   return (
     <div>
-      <Home />
+      <Home pets={pets} />
     </div>
   );
 }

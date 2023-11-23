@@ -210,13 +210,13 @@ export function Navbar() {
                 >
                   Settings
                 </Disclosure.Button>
-                <Disclosure.Button
+                {/* <Disclosure.Button
                   as="a"
                   href="#"
                   className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                 >
                   Sign out
-                </Disclosure.Button>
+                </Disclosure.Button> */}
               </div>
             </div>
           </Disclosure.Panel>

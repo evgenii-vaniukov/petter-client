@@ -5,6 +5,7 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import { UsersIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 
 function classNames(...classes) {
@@ -12,6 +13,7 @@ function classNames(...classes) {
 }
 
 export function PetSearchBar({ open, setOpen, pets }) {
+  const router = useRouter();
   const recent = [pets[0], pets[1], pets[2]];
   const [query, setQuery] = useState("");
 
@@ -53,7 +55,7 @@ export function PetSearchBar({ open, setOpen, pets }) {
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel className="mx-auto max-w-3xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
-              <Combobox onChange={(pet) => (window.location = pet.profileUrl)}>
+              <Combobox>
                 {({ activeOption }) => (
                   <>
                     <div className="relative">
@@ -99,6 +101,9 @@ export function PetSearchBar({ open, setOpen, pets }) {
                                       active && "bg-gray-100 text-gray-900",
                                     )
                                   }
+                                  onClick={() => {
+                                    router.push(`/petdetails/${pet.id}`);
+                                  }}
                                 >
                                   {({ active }) => (
                                     <>
@@ -136,15 +141,17 @@ export function PetSearchBar({ open, setOpen, pets }) {
                                 {activeOption.name}
                               </h2>
                               <p className="text-sm leading-6 text-gray-500">
-                                {activeOption.role}
+                                {activeOption.type}
                               </p>
                             </div>
                             <div className="flex flex-auto flex-col justify-between p-6">
                               <dl className="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-gray-700">
                                 <dt className="col-end-1 font-semibold text-gray-900">
-                                  Phone
+                                  Adoption Status
                                 </dt>
-                                <dd>{activeOption.phone}</dd>
+                                <dd>
+                                  {activeOption.adoptionStatus.toString()}
+                                </dd>
                                 <dt className="col-end-1 font-semibold text-gray-900">
                                   URL
                                 </dt>
@@ -171,8 +178,11 @@ export function PetSearchBar({ open, setOpen, pets }) {
                               <button
                                 type="button"
                                 className="mt-6 w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                onClick={() => {
+                                  router.push(`/petdetails/${activeOption.id}`);
+                                }}
                               >
-                                Send message
+                                Check pet details
                               </button>
                             </div>
                           </div>

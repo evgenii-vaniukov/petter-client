@@ -1,6 +1,9 @@
-export function PetCard({ pet }) {
+export function PetCard({ pet, onClick }) {
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
+    <div
+      className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
+      onClick={onClick}
+    >
       <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
         {/* <img
           src={pet.imageSrc}

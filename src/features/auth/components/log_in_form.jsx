@@ -1,8 +1,25 @@
+import { login } from "@/repository/auth/auth_repository";
 import { useRouter } from "next/navigation";
+import { useRef } from "react";
 import { useAuthContext } from "../context/auth_context";
 export function LogInForm() {
   const router = useRouter();
-  const { loggedIn, setLoggedIn } = useAuthContext();
+  const { loggedIn, setLoggedIn, setToken } = useAuthContext();
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+
+  async function handleLogin(event) {
+    event.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    const response = await login(email, password);
+    if (response.status === 401) {
+      alert("Incorrect email or password");
+      return;
+    }
+    setLoggedIn(true);
+    setToken(response.token);
+  }
 
   return (
     <>
@@ -29,6 +46,7 @@ export function LogInForm() {
               </label>
               <div className="mt-2">
                 <input
+                  ref={emailRef}
                   id="email"
                   name="email"
                   type="email"
@@ -58,6 +76,7 @@ export function LogInForm() {
               </div>
               <div className="mt-2">
                 <input
+                  ref={passwordRef}
                   id="password"
                   name="password"
                   type="password"
@@ -72,9 +91,7 @@ export function LogInForm() {
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={() => {
-                  setLoggedIn(true);
-                }}
+                onClick={handleLogin}
               >
                 Log in
               </button>
