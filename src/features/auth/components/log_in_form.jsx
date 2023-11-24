@@ -1,10 +1,8 @@
 import { login } from "@/repository/auth/auth_repository";
-import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { useAuthContext } from "../context/auth_context";
 
 export function LogInForm({ setLogInModalOpen, setSignUpModalOpen }) {
-  const router = useRouter();
   const { loggedIn, setLoggedIn, setToken } = useAuthContext();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);

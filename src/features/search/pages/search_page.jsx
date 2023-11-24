@@ -2,7 +2,7 @@
 import { Button_L } from "@/components/buttons";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar/navbar";
-import { useAuthContext } from "@/features/auth/context/auth_context";
+import { PetDetails } from "@/components/pet_details";
 import { filters } from "@/features/search/constants/filters";
 import { getPetsWithFilters } from "@/repository/pet/pet_repository";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
@@ -18,13 +18,16 @@ function classNames(...classes) {
 }
 
 export function SearchPage({ pets }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [searchBarIsOpened, setSearchBarIsOpened] = useState(false);
   const [petList, setPetList] = useState(pets);
-
-  const { compostiteFilter, setCompositeFilter } = useSearchContext();
-  const { loggedIn, setLoggedIn } = useAuthContext();
+  const {
+    compostiteFilter,
+    setCompositeFilter,
+    petDetailsAreOpened,
+    setPetDetailsAreOpened,
+    selectedPet,
+    setSelectedPet,
+  } = useSearchContext();
 
   useEffect(() => {
     const savedCompostiteFilter = JSON.parse(
@@ -52,6 +55,11 @@ export function SearchPage({ pets }) {
     <div className="bg-white">
       <Navbar pets={pets} />
       <div>
+        <PetDetails
+          open={petDetailsAreOpened}
+          setOpen={setPetDetailsAreOpened}
+          pet={selectedPet}
+        />
         {/* Mobile filter dialog */}
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
           <Dialog
@@ -207,7 +215,11 @@ export function SearchPage({ pets }) {
               aria-labelledby="product-heading"
               className="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3"
             >
-              <PetsList petList={petList} />
+              <PetsList
+                petList={petList}
+                setPetDetailsAreOpened={setPetDetailsAreOpened}
+                setSelectedPet={setSelectedPet}
+              />
             </section>
           </div>
         </main>

@@ -1,4 +1,5 @@
 "use client";
+import { useSearchContext } from "@/features/search/context/search_context";
 import { Combobox, Dialog, Transition } from "@headlessui/react";
 import {
   ChevronRightIcon,
@@ -16,6 +17,7 @@ export function PetSearchBar({ open, setOpen, pets }) {
   const router = useRouter();
   const recent = [pets[0], pets[1], pets[2]];
   const [query, setQuery] = useState("");
+  const { setSelectedPet, setPetDetailsAreOpened } = useSearchContext();
 
   const filteredPets =
     query === ""
@@ -102,7 +104,8 @@ export function PetSearchBar({ open, setOpen, pets }) {
                                     )
                                   }
                                   onClick={() => {
-                                    router.push(`/petdetails/${pet.id}`);
+                                    setSelectedPet(pet);
+                                    setPetDetailsAreOpened(true);
                                   }}
                                 >
                                   {({ active }) => (
@@ -179,7 +182,8 @@ export function PetSearchBar({ open, setOpen, pets }) {
                                 type="button"
                                 className="mt-6 w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 onClick={() => {
-                                  router.push(`/petdetails/${activeOption.id}`);
+                                  setSelectedPet(activeOption);
+                                  setPetDetailsAreOpened(true);
                                 }}
                               >
                                 Check pet details

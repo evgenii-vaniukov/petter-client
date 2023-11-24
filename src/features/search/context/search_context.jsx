@@ -10,6 +10,9 @@ export function SearchProvider({ children }) {
     size: [],
   });
 
+  const [petDetailsAreOpened, setPetDetailsAreOpened] = useState(false);
+  const [selectedPet, setSelectedPet] = useState({});
+
   function handleFilter(checked, id, value) {
     if (checked) {
       setCompositeFilter({
@@ -29,6 +32,10 @@ export function SearchProvider({ children }) {
         compostiteFilter,
         setCompositeFilter,
         handleFilter,
+        petDetailsAreOpened,
+        setPetDetailsAreOpened,
+        selectedPet,
+        setSelectedPet,
       }}
     >
       {children}

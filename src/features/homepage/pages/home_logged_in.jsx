@@ -1,7 +1,7 @@
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar/navbar";
 import { CTA } from "../components/cta_section";
-// test 2
+
 export function HomeLoggedIn({ pets }) {
   return (
     <div className="bg-white">
