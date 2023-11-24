@@ -2,10 +2,10 @@
 import { AuthContextProvider } from "@/features/auth/context/auth_context";
 import { HomePage } from "./pages/home_page";
 
-export function Home() {
+export function Home({ pets }) {
   return (
     <AuthContextProvider>
-      <HomePage />
+      <HomePage pets={pets} />
     </AuthContextProvider>
   );
 }
