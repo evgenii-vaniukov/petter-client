@@ -2,7 +2,8 @@
 import { Button_L } from "@/components/buttons";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar/navbar";
-import { PetDetails } from "@/components/pet_details";
+import { usePetDetailsContext } from "@/features/pet_details/context/pet_details_context";
+import { PetDetails } from "@/features/pet_details/index";
 import { filters } from "@/features/search/constants/filters";
 import { getPetsWithFilters } from "@/repository/pet/pet_repository";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
@@ -20,14 +21,14 @@ function classNames(...classes) {
 export function SearchPage({ pets }) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [petList, setPetList] = useState(pets);
+  const { compostiteFilter, setCompositeFilter } = useSearchContext();
+
   const {
-    compostiteFilter,
-    setCompositeFilter,
     petDetailsAreOpened,
     setPetDetailsAreOpened,
     selectedPet,
     setSelectedPet,
-  } = useSearchContext();
+  } = usePetDetailsContext();
 
   useEffect(() => {
     const savedCompostiteFilter = JSON.parse(
