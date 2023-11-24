@@ -1,12 +1,14 @@
 import { useAuthContext } from "@/features/auth/context/auth_context";
 import { Menu, Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 import { Fragment } from "react";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 export function ProfileIcon() {
+  const router = useRouter();
   const { setLoggedIn } = useAuthContext();
   return (
     <Menu as="div" className="relative ml-4 flex-shrink-0">
@@ -36,6 +38,22 @@ export function ProfileIcon() {
                 )}
               >
                 Your Profile
+              </a>
+            )}
+          </Menu.Item>
+
+          <Menu.Item>
+            {({ active }) => (
+              <a
+                className={classNames(
+                  active ? "bg-gray-100" : "",
+                  "block px-4 py-2 text-sm text-gray-700",
+                )}
+                onClick={() => {
+                  router.push("/mypets");
+                }}
+              >
+                My Pets
               </a>
             )}
           </Menu.Item>
