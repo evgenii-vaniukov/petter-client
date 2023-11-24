@@ -1,10 +1,18 @@
 import { api } from "../api";
 
-export async function adoptPet(id) {
+export async function adoptPet(id, token) {
   try {
-    const response = await api.get(`${id}/adopt`);
+    const response = await api.post(
+      `/pets/${id}/adopt`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
     return { status: response.status };
   } catch (error) {
-    console.error(error);
+    return { status: error.response.status };
   }
 }

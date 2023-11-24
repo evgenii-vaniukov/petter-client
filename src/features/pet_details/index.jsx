@@ -40,10 +40,18 @@ export function PetDetails({ open, setOpen, pet }) {
 
   async function handleAdopt(e) {
     e.preventDefault();
-    const response = await adoptPet(pet.id);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You need to login first");
+      return;
+    }
+
+    const response = await adoptPet(pet.id, token);
     if (response.status === 200) {
       alert("Pet adopted successfully");
       setOpen(false);
+    } else if (response.status === 401) {
+      alert("You need to login first");
     } else {
       alert("Something went wrong");
     }
