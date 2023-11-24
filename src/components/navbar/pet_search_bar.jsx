@@ -1,12 +1,11 @@
 "use client";
-import { useSearchContext } from "@/features/search/context/search_context";
+import { usePetDetailsContext } from "@/features/pet_details/context/pet_details_context";
 import { Combobox, Dialog, Transition } from "@headlessui/react";
 import {
   ChevronRightIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import { UsersIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 
 function classNames(...classes) {
@@ -14,10 +13,9 @@ function classNames(...classes) {
 }
 
 export function PetSearchBar({ open, setOpen, pets }) {
-  const router = useRouter();
   const recent = [pets[0], pets[1], pets[2]];
   const [query, setQuery] = useState("");
-  const { setSelectedPet, setPetDetailsAreOpened } = useSearchContext();
+  const { setSelectedPet, setPetDetailsAreOpened } = usePetDetailsContext();
 
   const filteredPets =
     query === ""

@@ -1,5 +1,6 @@
 import { LogIn } from "@/features/auth/components/log_in_modal";
 import { useAuthContext } from "@/features/auth/context/auth_context";
+import { adoptPet } from "@/repository/pet_ownership/pet_ownersip_repository";
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
@@ -34,8 +35,27 @@ function classNames(...classes) {
 
 export function PetDetails({ open, setOpen, pet }) {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const { loggedIn, setLoggedIn } = useAuthContext();
   const [logInModalOpen, setLogInModalOpen] = useState(false);
+  const { loggedIn, setLoggedIn } = useAuthContext();
+
+  async function handleAdopt(e) {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You need to login first");
+      return;
+    }
+
+    const response = await adoptPet(pet.id, token);
+    if (response.status === 200) {
+      alert("Pet adopted successfully");
+      setOpen(false);
+    } else if (response.status === 401) {
+      alert("You need to login first");
+    } else {
+      alert("Something went wrong");
+    }
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -175,6 +195,7 @@ export function PetDetails({ open, setOpen, pet }) {
                               <button
                                 type="submit"
                                 className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                                onClick={handleAdopt}
                               >
                                 Adopt
                               </button>
