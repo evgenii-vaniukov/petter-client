@@ -33,3 +33,16 @@ export const getPetById = cache(async (id) => {
     console.error(error);
   }
 });
+
+export const createPet = async (pet, token) => {
+  try {
+    const response = await api.post("/pets", pet, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return { status: response.status };
+  } catch (error) {
+    return { status: error.response.status };
+  }
+};

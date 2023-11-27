@@ -60,7 +60,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function AdminPetsList({ pets }) {
+export function AdminPetsList({ pets, setAddPetIsOpen }) {
   return (
     <ul role="list" className="divide-y divide-gray-100">
       {pets.map((pet) => (
@@ -138,6 +138,9 @@ export function AdminPetsList({ pets }) {
         <button
           type="button"
           className="mt-5 rounded-full bg-indigo-600 p-1.5 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={() => {
+            setAddPetIsOpen(true);
+          }}
         >
           <PlusIcon className="h-5 w-5" aria-hidden="true" />
         </button>

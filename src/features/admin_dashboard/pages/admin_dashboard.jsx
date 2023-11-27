@@ -1,11 +1,12 @@
 "use client";
 import { ProfileIcon } from "@/components/navbar/profile_icon";
+import { AddPetModal } from "@/features/admin_dashboard/components/add_pet/add_pet_modal";
 import { useAuthContext } from "@/features/auth/context/auth_context";
 import { Popover, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { AdminPetsList } from "../components/admin_pets_list";
 import { AdminUsersList } from "../components/admin_users_list";
 import { NotAuthorized } from "./not_authorized";
@@ -25,9 +26,11 @@ function classNames(...classes) {
 export function AdminDashboard({ pets }) {
   const router = useRouter();
   const { loggedIn, role, setLoggedIn } = useAuthContext();
+  const [addPetIsOpen, setAddPetIsOpen] = useState(false);
   if (loggedIn && role === "ADMIN") {
     return (
       <>
+        <AddPetModal open={addPetIsOpen} setOpen={setAddPetIsOpen} />
         <div className="min-h-full">
           <Popover as="header" className="bg-indigo-600 pb-24">
             {({ open }) => (
@@ -249,7 +252,10 @@ export function AdminDashboard({ pets }) {
                     </h2>
                     <div className="overflow-hidden rounded-lg bg-white shadow">
                       <div className="p-6">
-                        <AdminPetsList pets={pets} />
+                        <AdminPetsList
+                          pets={pets}
+                          setAddPetIsOpen={setAddPetIsOpen}
+                        />
                       </div>
                     </div>
                   </section>
