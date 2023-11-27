@@ -6,6 +6,8 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";
+import { AdminPetsList } from "../components/admin_pets_list";
+import { AdminUsersList } from "../components/admin_users_list";
 import { NotAuthorized } from "./not_authorized";
 
 const user = {
@@ -20,7 +22,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function AdminDashboard() {
+export function AdminDashboard({ pets }) {
   const router = useRouter();
   const { loggedIn, role, setLoggedIn } = useAuthContext();
   if (loggedIn && role === "ADMIN") {
@@ -43,6 +45,7 @@ export function AdminDashboard() {
                         />
                       </a>
                     </div>
+                    <h2 className="text-gray-100">Admin Dashboard</h2>
 
                     {/* Right section on desktop */}
                     <div className="hidden lg:ml-4 lg:flex lg:items-center lg:pr-0.5">
@@ -245,7 +248,9 @@ export function AdminDashboard() {
                       Section title
                     </h2>
                     <div className="overflow-hidden rounded-lg bg-white shadow">
-                      <div className="p-6">{/* Your content */}</div>
+                      <div className="p-6">
+                        <AdminPetsList pets={pets} />
+                      </div>
                     </div>
                   </section>
                 </div>
@@ -257,7 +262,9 @@ export function AdminDashboard() {
                       Section title
                     </h2>
                     <div className="overflow-hidden rounded-lg bg-white shadow">
-                      <div className="p-6">{/* Your content */}</div>
+                      <div className="p-6">
+                        <AdminUsersList></AdminUsersList>
+                      </div>
                     </div>
                   </section>
                 </div>
