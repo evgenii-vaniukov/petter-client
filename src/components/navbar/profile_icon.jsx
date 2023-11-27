@@ -7,16 +7,18 @@ import { Fragment } from "react";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-export function ProfileIcon() {
+export function ProfileIcon({ iconColor = "text-gray-400" }) {
   const router = useRouter();
   const { setLoggedIn } = useAuthContext();
   return (
     <Menu as="div" className="relative ml-4 flex-shrink-0">
       <div>
-        <Menu.Button className="relative flex rounded-full text-sm text-white focus:outline-none focus:ring-2 focus:ring-white ">
+        <Menu.Button className="relative flex rounded-full text-sm text-white focus:outline-none ">
           <span className="absolute -inset-1.5" />
           <span className="sr-only">Open user menu</span>
-          <UserCircleIcon className="h-6 w-6 text-gray-400 hover:text-gray-500 lg:ml-6" />
+          <UserCircleIcon
+            className={`h-6 w-6 ${iconColor} hover:text-gray-500 lg:ml-6`}
+          />
         </Menu.Button>
       </div>
       <Transition
@@ -63,6 +65,7 @@ export function ProfileIcon() {
               <a
                 onClick={() => {
                   setLoggedIn(false);
+                  router.push("/");
                 }}
                 className={classNames(
                   active ? "bg-gray-100" : "",

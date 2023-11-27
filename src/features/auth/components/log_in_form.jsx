@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useAuthContext } from "../context/auth_context";
 
 export function LogInForm({ setLogInModalOpen, setSignUpModalOpen }) {
-  const { loggedIn, setLoggedIn, setToken } = useAuthContext();
+  const { setLoggedIn, setToken, setRole } = useAuthContext();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
@@ -18,6 +18,7 @@ export function LogInForm({ setLogInModalOpen, setSignUpModalOpen }) {
     }
     setLoggedIn(true);
     setToken(response.token);
+    setRole(response.role);
     setLogInModalOpen(false);
   }
 

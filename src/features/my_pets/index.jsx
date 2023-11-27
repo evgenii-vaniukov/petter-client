@@ -22,10 +22,6 @@ const userNavigation = [
   { name: "Sign out", href: "#" },
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export function MyPets({ pets }) {
   return (
     <AuthContextProvider>

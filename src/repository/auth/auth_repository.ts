@@ -7,6 +7,7 @@ export const login = cache(async (email, password) => {
     return {
       status: response.status,
       token: response.data.token,
+      role: response.data.role,
     };
   } catch (error) {
     console.error("There was an error!");
@@ -27,6 +28,7 @@ export const signup = cache(
       return {
         status: response.status,
         token: response.data.token,
+        role: response.data.role,
       };
     } catch (error) {
       console.error("There was an error!");
