@@ -2,19 +2,19 @@ import { useAuthContext } from "@/features/auth/context/auth_context";
 import { createPet } from "@/repository/pet/pet_repository";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useRef, useState } from "react";
+import { Dropdown } from "../dropdown";
 import {
   dietaryRestrictions,
   hypoallergenic,
   petSizes,
   petTypes,
-} from "../../constants/pet_types";
-import { Dropdown } from "../dropdown";
+} from "./constants/pet_types";
 
 export function AddPetForm({ setOpen }) {
   const { token } = useAuthContext();
   const [petType, setPetType] = useState(petTypes[0]);
   const [petSize, setPetSize] = useState(petSizes[0]);
-  const [petHypoallergenic, setPetHypoallergenic] = useState(hypoallergenic[0]);
+  const [petHypoallergenic, setPetHypoallergenic] = useState(hypoallergenic[1]);
   const [petDietaryRestrictions, setPetDietaryRestrictions] = useState(
     dietaryRestrictions[0],
   );

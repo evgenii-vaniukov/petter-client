@@ -7,12 +7,15 @@ import {
   hypoallergenic,
   petSizes,
   petTypes,
-} from "../../constants/pet_types";
+} from "../add_pet/constants/pet_types";
 import { Dropdown } from "../dropdown";
 
 export function EditPetForm({ setOpen, pet }) {
   const petID = pet.id;
   const { token } = useAuthContext();
+  const [petAdoptionStatus, setPetAdoptionStatus] = useState({
+    name: pet.adoptionStatus.toString(),
+  });
   const [petType, setPetType] = useState({ name: pet.type });
   const [petSize, setPetSize] = useState({ name: pet.size });
   const [petHypoallergenic, setPetHypoallergenic] = useState({
@@ -31,7 +34,7 @@ export function EditPetForm({ setOpen, pet }) {
     event.preventDefault();
 
     const pet = {
-      adoptionStatus: "false",
+      adoptionStatus: petAdoptionStatus.name,
       name: petName.current.value,
       type: petType.name,
       size: petSize.name,
@@ -76,6 +79,14 @@ export function EditPetForm({ setOpen, pet }) {
               />
             </div>
             <div className="sm:col-span-4">
+              <Dropdown
+                label={"Adoption Status"}
+                options={hypoallergenic} // Just a boolean dropdown
+                selected={petAdoptionStatus}
+                setSelected={setPetAdoptionStatus}
+              />
+            </div>
+            <div className="sm:col-span-4">
               <label
                 htmlFor="username"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -95,7 +106,7 @@ export function EditPetForm({ setOpen, pet }) {
                     autoComplete="name"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Jessey"
-                    value={pet.name}
+                    defaultValue={pet.name}
                   />
                 </div>
               </div>
@@ -123,7 +134,7 @@ export function EditPetForm({ setOpen, pet }) {
                   id="pet-color"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Brown"
-                  value={pet.color}
+                  defaultValue={pet.color}
                 />
               </div>
             </div>
@@ -158,7 +169,7 @@ export function EditPetForm({ setOpen, pet }) {
                   id="pet-breed"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="York"
-                  value={pet.breed}
+                  defaultValue={pet.breed}
                 />
               </div>
             </div>
@@ -202,7 +213,7 @@ export function EditPetForm({ setOpen, pet }) {
                   id="pet-photo"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="https://example.com"
-                  value={pet.picturePath}
+                  defaultValue={pet.picturePath}
                 />
               </div>
               <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">

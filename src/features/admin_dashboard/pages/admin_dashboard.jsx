@@ -58,7 +58,9 @@ export function AdminDashboard({ pets }) {
                         />
                       </a>
                     </div>
-                    <h2 className="text-gray-100">Admin Dashboard</h2>
+                    <h2 className="md: hidden lg:text-gray-100">
+                      Admin Dashboard
+                    </h2>
 
                     {/* Right section on desktop */}
                     <div className="hidden lg:ml-4 lg:flex lg:items-center lg:pr-0.5">
