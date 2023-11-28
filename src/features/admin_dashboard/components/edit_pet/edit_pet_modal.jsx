@@ -1,9 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
-import { AddPetForm } from "./add_pet_form";
+import { EditPetForm } from "./edit_pet_form";
 
-export function AddPetModal({ open, setOpen }) {
+export function EditPetModal({ open, setOpen, pet }) {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -48,7 +48,7 @@ export function AddPetModal({ open, setOpen }) {
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
 
-                  <AddPetForm setOpen={setOpen} />
+                  <EditPetForm setOpen={setOpen} pet={pet} />
                 </div>
               </Dialog.Panel>
             </Transition.Child>

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 import { AdminPetsList } from "../components/admin_pets_list";
 import { AdminUsersList } from "../components/admin_users_list";
+import { EditPetModal } from "../components/edit_pet/edit_pet_modal";
 import { NotAuthorized } from "./not_authorized";
 
 const user = {
@@ -27,10 +28,19 @@ export function AdminDashboard({ pets }) {
   const router = useRouter();
   const { loggedIn, role, setLoggedIn } = useAuthContext();
   const [addPetIsOpen, setAddPetIsOpen] = useState(false);
+  const [editPetIsOpen, setEditPetIsOpen] = useState(false);
+
+  const [selectedPet, setSelectedPet] = useState(null);
+
   if (loggedIn && role === "ADMIN") {
     return (
       <>
         <AddPetModal open={addPetIsOpen} setOpen={setAddPetIsOpen} />
+        <EditPetModal
+          open={editPetIsOpen}
+          setOpen={setEditPetIsOpen}
+          pet={selectedPet}
+        />
         <div className="min-h-full">
           <Popover as="header" className="bg-indigo-600 pb-24">
             {({ open }) => (
@@ -255,6 +265,8 @@ export function AdminDashboard({ pets }) {
                         <AdminPetsList
                           pets={pets}
                           setAddPetIsOpen={setAddPetIsOpen}
+                          setEditPetIsOpen={setEditPetIsOpen}
+                          setSelectedPet={setSelectedPet}
                         />
                       </div>
                     </div>

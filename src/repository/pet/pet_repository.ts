@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { api } from "../api";
+// TODO: Check all try catch blocks
 
 export const getPets = cache(async () => {
   try {
@@ -37,6 +38,32 @@ export const getPetById = cache(async (id) => {
 export const createPet = async (pet, token) => {
   try {
     const response = await api.post("/pets", pet, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return { status: response.status };
+  } catch (error) {
+    return { status: error.response.status };
+  }
+};
+
+export const updatePet = async (id, pet, token) => {
+  try {
+    const response = await api.patch(`/pets/${id}`, pet, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return { status: response.status };
+  } catch (error) {
+    return { status: error.response.status };
+  }
+};
+
+export const deletePet = async (id, token) => {
+  try {
+    const response = await api.delete(`/pets/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

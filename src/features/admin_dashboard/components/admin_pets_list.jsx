@@ -2,6 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
 
+import { deletePet } from "@/repository/pet/pet_repository";
 import { PlusIcon } from "@heroicons/react/20/solid";
 
 const statuses = {
@@ -60,7 +61,27 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function AdminPetsList({ pets, setAddPetIsOpen }) {
+export function AdminPetsList({
+  pets,
+  setAddPetIsOpen,
+  setEditPetIsOpen,
+  setSelectedPet,
+}) {
+  const token = localStorage.getItem("token");
+
+  async function handleDeletePet(id) {
+    const response = await deletePet(id, token);
+    if (response.status === 200) {
+      window.location.reload();
+    }
+    if (response.status === 400) {
+      alert("Bad request");
+    }
+    if (response.status === 401) {
+      alert("Unauthorized");
+    }
+  }
+
   return (
     <ul role="list" className="divide-y divide-gray-100">
       {pets.map((pet) => (
@@ -110,6 +131,10 @@ export function AdminPetsList({ pets, setAddPetIsOpen }) {
                           active ? "bg-gray-50" : "",
                           "block px-3 py-1 text-sm leading-6 text-gray-900",
                         )}
+                        onClick={() => {
+                          setSelectedPet(pet);
+                          setEditPetIsOpen(true);
+                        }}
                       >
                         Edit<span className="sr-only">, {pet.name}</span>
                       </a>
@@ -123,6 +148,7 @@ export function AdminPetsList({ pets, setAddPetIsOpen }) {
                           active ? "bg-gray-50" : "",
                           "block px-3 py-1 text-sm leading-6 text-gray-900",
                         )}
+                        onClick={() => handleDeletePet(pet.id)}
                       >
                         Delete<span className="sr-only">, {pet.name}</span>
                       </a>

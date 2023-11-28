@@ -1,5 +1,5 @@
 import { useAuthContext } from "@/features/auth/context/auth_context";
-import { createPet } from "@/repository/pet/pet_repository";
+import { updatePet } from "@/repository/pet/pet_repository";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useRef, useState } from "react";
 import {
@@ -10,15 +10,18 @@ import {
 } from "../../constants/pet_types";
 import { Dropdown } from "../dropdown";
 
-export function AddPetForm({ setOpen }) {
+export function EditPetForm({ setOpen, pet }) {
+  const petID = pet.id;
   const { token } = useAuthContext();
-  const [petType, setPetType] = useState(petTypes[0]);
-  const [petSize, setPetSize] = useState(petSizes[0]);
-  const [petHypoallergenic, setPetHypoallergenic] = useState(hypoallergenic[0]);
-  const [petDietaryRestrictions, setPetDietaryRestrictions] = useState(
-    dietaryRestrictions[0],
-  );
-  const petName = useRef("Sharik");
+  const [petType, setPetType] = useState({ name: pet.type });
+  const [petSize, setPetSize] = useState({ name: pet.size });
+  const [petHypoallergenic, setPetHypoallergenic] = useState({
+    name: pet.hypoallergenic.toString(),
+  });
+  const [petDietaryRestrictions, setPetDietaryRestrictions] = useState({
+    name: pet.dietaryRestrictions.toString(),
+  });
+  const petName = useRef("");
   const petBio = useRef("");
   const petPhotoUrl = useRef("");
   const petColor = useRef("");
@@ -39,10 +42,10 @@ export function AddPetForm({ setOpen }) {
       color: petColor.current.value,
       breed: petBreed.current.value,
     };
-    const response = await createPet(pet, token);
+    const response = await updatePet(petID, pet, token);
 
     if (response.status === 200) {
-      alert("Pet was successfully created");
+      alert("Pet was successfully updated");
       setOpen(false);
     }
 
@@ -87,11 +90,12 @@ export function AddPetForm({ setOpen }) {
                   <input
                     ref={petName}
                     type="text"
-                    name="username"
-                    id="username"
-                    autoComplete="username"
+                    name="name"
+                    id="name"
+                    autoComplete="name"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Jessey"
+                    value={pet.name}
                   />
                 </div>
               </div>
@@ -119,6 +123,7 @@ export function AddPetForm({ setOpen }) {
                   id="pet-color"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Brown"
+                  value={pet.color}
                 />
               </div>
             </div>
@@ -153,6 +158,7 @@ export function AddPetForm({ setOpen }) {
                   id="pet-breed"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="York"
+                  value={pet.breed}
                 />
               </div>
             </div>
@@ -173,7 +179,7 @@ export function AddPetForm({ setOpen }) {
                   name="about"
                   rows={3}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  defaultValue={""}
+                  defaultValue={pet.bio}
                 />
               </div>
             </div>
@@ -196,6 +202,7 @@ export function AddPetForm({ setOpen }) {
                   id="pet-photo"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="https://example.com"
+                  value={pet.picturePath}
                 />
               </div>
               <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
