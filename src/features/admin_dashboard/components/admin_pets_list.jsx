@@ -1,61 +1,14 @@
 import { Menu, Transition } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
+import { handleDeletePet } from "../utils/handlers";
 
-import { deletePet } from "@/repository/pet/pet_repository";
 import { PlusIcon } from "@heroicons/react/20/solid";
 
 const statuses = {
   false: "text-green-700 bg-green-50 ring-green-600/20",
   true: "text-yellow-800 bg-yellow-50 ring-yellow-600/20",
 };
-const projects = [
-  {
-    id: 1,
-    name: "GraphQL API",
-    href: "#",
-    status: "Complete",
-    createdBy: "Leslie Alexander",
-    dueDate: "March 17, 2023",
-    dueDateTime: "2023-03-17T00:00Z",
-  },
-  {
-    id: 2,
-    name: "New benefits plan",
-    href: "#",
-    status: "true",
-    createdBy: "Leslie Alexander",
-    dueDate: "May 5, 2023",
-    dueDateTime: "2023-05-05T00:00Z",
-  },
-  {
-    id: 3,
-    name: "Onboarding emails",
-    href: "#",
-    status: "In progress",
-    createdBy: "Courtney Henry",
-    dueDate: "May 25, 2023",
-    dueDateTime: "2023-05-25T00:00Z",
-  },
-  {
-    id: 4,
-    name: "iOS app",
-    href: "#",
-    status: "true",
-    createdBy: "Leonard Krasner",
-    dueDate: "June 7, 2023",
-    dueDateTime: "2023-06-07T00:00Z",
-  },
-  {
-    id: 5,
-    name: "Marketing site redesign",
-    href: "#",
-    status: "false",
-    createdBy: "Courtney Henry",
-    dueDate: "June 10, 2023",
-    dueDateTime: "2023-06-10T00:00Z",
-  },
-];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -66,21 +19,9 @@ export function AdminPetsList({
   setAddPetIsOpen,
   setEditPetIsOpen,
   setSelectedPet,
+  setPetDetailsAreOpened,
 }) {
   const token = localStorage.getItem("token");
-
-  async function handleDeletePet(id) {
-    const response = await deletePet(id, token);
-    if (response.status === 200) {
-      window.location.reload();
-    }
-    if (response.status === 400) {
-      alert("Bad request");
-    }
-    if (response.status === 401) {
-      alert("Unauthorized");
-    }
-  }
 
   return (
     <ul role="list" className="divide-y divide-gray-100">
@@ -105,7 +46,13 @@ export function AdminPetsList({
             </div>
           </div>
           <div className="flex flex-none items-center gap-x-4">
-            <a className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">
+            <a
+              className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
+              onClick={() => {
+                setSelectedPet(pet);
+                setPetDetailsAreOpened(true);
+              }}
+            >
               View pet<span className="sr-only">, {pet.name}</span>
             </a>
             <Menu as="div" className="relative flex-none">
@@ -148,7 +95,7 @@ export function AdminPetsList({
                           active ? "bg-gray-50" : "",
                           "block px-3 py-1 text-sm leading-6 text-gray-900",
                         )}
-                        onClick={() => handleDeletePet(pet.id)}
+                        onClick={() => handleDeletePet(pet.id, token)}
                       >
                         Delete<span className="sr-only">, {pet.name}</span>
                       </a>

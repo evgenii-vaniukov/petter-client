@@ -1,5 +1,4 @@
 "use client";
-import { ProfileIcon } from "@/components/navbar/profile_icon";
 import { AddPetModal } from "@/features/admin_dashboard/components/add_pet/add_pet_modal";
 import { useAuthContext } from "@/features/auth/context/auth_context";
 import { Popover, Transition } from "@headlessui/react";
@@ -7,7 +6,9 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
+import { AdminPetDetails } from "../components/admin_pet_details";
 import { AdminPetsList } from "../components/admin_pets_list";
+import { AdminProfileIcon } from "../components/admin_profile_icon";
 import { AdminUsersList } from "../components/admin_users_list";
 import { EditPetModal } from "../components/edit_pet/edit_pet_modal";
 import { NotAuthorized } from "./not_authorized";
@@ -29,8 +30,8 @@ export function AdminDashboard({ pets }) {
   const { loggedIn, role, setLoggedIn } = useAuthContext();
   const [addPetIsOpen, setAddPetIsOpen] = useState(false);
   const [editPetIsOpen, setEditPetIsOpen] = useState(false);
-
-  const [selectedPet, setSelectedPet] = useState(null);
+  const [selectedPet, setSelectedPet] = useState({});
+  const [petDetailsAreOpened, setPetDetailsAreOpened] = useState(false);
 
   if (loggedIn && role === "ADMIN") {
     return (
@@ -39,6 +40,12 @@ export function AdminDashboard({ pets }) {
         <EditPetModal
           open={editPetIsOpen}
           setOpen={setEditPetIsOpen}
+          pet={selectedPet}
+        />
+        <AdminPetDetails
+          open={petDetailsAreOpened}
+          setOpen={setPetDetailsAreOpened}
+          setEditPetIsOpen={setEditPetIsOpen}
           pet={selectedPet}
         />
         <div className="min-h-full">
@@ -58,13 +65,13 @@ export function AdminDashboard({ pets }) {
                         />
                       </a>
                     </div>
-                    <h2 className="md: hidden lg:text-gray-100">
+                    <h2 className="hidden text-gray-100 lg:block">
                       Admin Dashboard
                     </h2>
 
                     {/* Right section on desktop */}
                     <div className="hidden lg:ml-4 lg:flex lg:items-center lg:pr-0.5">
-                      <ProfileIcon iconColor="text-white" />
+                      <AdminProfileIcon iconColor="text-white" />
                     </div>
 
                     {/* Search */}
@@ -269,6 +276,7 @@ export function AdminDashboard({ pets }) {
                           setAddPetIsOpen={setAddPetIsOpen}
                           setEditPetIsOpen={setEditPetIsOpen}
                           setSelectedPet={setSelectedPet}
+                          setPetDetailsAreOpened={setPetDetailsAreOpened}
                         />
                       </div>
                     </div>
