@@ -33,3 +33,20 @@ export function returnPet(petID: string, token: string) {
     return error.response.status;
   }
 }
+
+export function savePet(id, token) {
+  try {
+    const response = api.post(
+      `/pets/${id}/save`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response;
+  } catch (error) {
+    return error.response.status;
+  }
+}

@@ -1,6 +1,9 @@
 import { LogIn } from "@/features/auth/components/log_in_modal";
 import { useAuthContext } from "@/features/auth/context/auth_context";
-import { adoptPet } from "@/repository/pet_ownership/pet_ownersip_repository";
+import {
+  adoptPet,
+  savePet,
+} from "@/repository/pet_ownership/pet_ownersip_repository";
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
@@ -36,7 +39,7 @@ function classNames(...classes) {
 export function PetDetails({ open, setOpen, pet }) {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [logInModalOpen, setLogInModalOpen] = useState(false);
-  const { loggedIn, setLoggedIn } = useAuthContext();
+  const { loggedIn } = useAuthContext();
 
   async function handleAdopt(e) {
     e.preventDefault();
@@ -49,7 +52,24 @@ export function PetDetails({ open, setOpen, pet }) {
     const response = await adoptPet(pet.id, token);
     if (response.status === 200) {
       alert("Pet adopted successfully");
-      setOpen(false);
+    } else if (response.status === 401) {
+      alert("You need to login first");
+    } else {
+      alert("Something went wrong");
+    }
+  }
+
+  async function handleSaveForLater(e) {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You need to login first");
+      return;
+    }
+
+    const response = await savePet(pet.id, token);
+    if (response.status === 200) {
+      alert("Saved");
     } else if (response.status === 401) {
       alert("You need to login first");
     } else {
@@ -213,17 +233,20 @@ export function PetDetails({ open, setOpen, pet }) {
                             )}
                           </div>
 
-                          <p className="absolute left-4 top-4 text-center sm:static sm:mt-6">
-                            <button
-                              className="font-medium text-indigo-600 hover:text-indigo-500"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setOpen(false);
-                              }}
-                            >
-                              Save for later
-                            </button>
-                          </p>
+                          {loggedIn && (
+                            <p className="absolute left-4 top-4 text-center sm:static sm:mt-6">
+                              <button
+                                className="font-medium text-indigo-600 hover:text-indigo-500"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleSaveForLater(e);
+                                  setOpen(false);
+                                }}
+                              >
+                                Save for later
+                              </button>
+                            </p>
+                          )}
                         </form>
                       </section>
                     </div>
