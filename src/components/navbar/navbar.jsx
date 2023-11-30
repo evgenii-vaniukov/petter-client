@@ -16,6 +16,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 export function Navbar({ pets }) {
+  // TODO: Stop relying on pets prop
   const [searchBarIsOpened, setSearchBarIsOpened] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [logInModalOpen, setLogInModalOpen] = useState(false);

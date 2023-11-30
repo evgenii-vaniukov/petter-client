@@ -11,7 +11,7 @@ export function HomeLoggedIn({ pets }) {
     setSelectedPet,
   } = usePetDetailsContext();
   return (
-    <div className="bg-white">
+    <div className="h-full bg-white">
       <PetDetails
         open={petDetailsAreOpened}
         setOpen={setPetDetailsAreOpened}

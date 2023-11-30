@@ -1,4 +1,6 @@
+import { useRouter } from "next/navigation";
 export function NotAuthorized() {
+  const router = useRouter();
   return (
     <>
       <div className="grid min-h-full grid-cols-1 grid-rows-[1fr,auto,1fr] bg-white lg:grid-cols-[max(50%,36rem),1fr]">
@@ -27,6 +29,7 @@ export function NotAuthorized() {
               <a
                 href="#"
                 className="text-sm font-semibold leading-7 text-indigo-600"
+                onClick={() => router.back()}
               >
                 <span aria-hidden="true">&larr;</span> Back to home
               </a>

@@ -69,7 +69,6 @@ export function PetSearchBar({ open, setOpen, pets }) {
                         onChange={(event) => setQuery(event.target.value)}
                       />
                     </div>
-
                     {(query === "" || filteredPets.length > 0) && (
                       <Combobox.Options
                         as="div"

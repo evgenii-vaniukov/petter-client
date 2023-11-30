@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
-import { handleDeletePet } from "../utils/handlers";
+import { returnPetHandler } from "../utils/handlers";
 
 const product = {
   name: "Zip Tote Basket",
@@ -37,7 +37,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function AdminPetDetails({ open, setOpen, pet, setEditPetIsOpen }) {
+export function PetDetails({ open, setOpen, pet }) {
   const token = localStorage.getItem("token");
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -166,15 +166,15 @@ export function AdminPetDetails({ open, setOpen, pet, setEditPetIsOpen }) {
                               className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                               onClick={(e) => {
                                 e.preventDefault();
-                                setEditPetIsOpen(true);
+                                returnPetHandler(pet.id, token);
                                 setOpen(false);
                               }}
                             >
-                              Edit
+                              Return
                             </button>
                           </div>
 
-                          <p className="absolute left-4 top-4 text-center sm:static sm:mt-6">
+                          {/* <p className="absolute left-4 top-4 text-center sm:static sm:mt-6">
                             <a
                               href={product.href}
                               className="font-medium text-red-600 hover:text-red-900"
@@ -185,7 +185,7 @@ export function AdminPetDetails({ open, setOpen, pet, setEditPetIsOpen }) {
                             >
                               Delete
                             </a>
-                          </p>
+                          </p> */}
                         </form>
                       </section>
                     </div>

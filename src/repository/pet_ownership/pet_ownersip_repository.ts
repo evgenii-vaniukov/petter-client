@@ -16,3 +16,20 @@ export async function adoptPet(id, token) {
     return { status: error.response.status };
   }
 }
+
+export function returnPet(petID: string, token: string) {
+  try {
+    const response = api.post(
+      `/pets/${petID}/return`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response;
+  } catch (error) {
+    return error.response.status;
+  }
+}

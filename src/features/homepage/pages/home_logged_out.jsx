@@ -7,7 +7,7 @@ export function HomeLoggedOut({ pets }) {
   const { petDetailsAreOpened, setPetDetailsAreOpened, selectedPet } =
     usePetDetailsContext();
   return (
-    <div className="bg-white">
+    <div className="h-full bg-white">
       <PetDetails
         open={petDetailsAreOpened}
         setOpen={setPetDetailsAreOpened}
