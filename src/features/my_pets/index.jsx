@@ -1,6 +1,9 @@
 "use client";
 import { Navbar } from "@/components/navbar/navbar.jsx";
-import { getUserPets } from "@/repository/user/user_repository";
+import {
+  getUserAdoptedPets,
+  getUserSavedPets,
+} from "@/repository/user/user_repository";
 import { useEffect, useState } from "react";
 import { AuthContextProvider } from "../auth/context/auth_context.jsx";
 import { PetDetailsProvider } from "../pet_details/context/pet_details_context.jsx";
@@ -12,7 +15,8 @@ import { Tabs } from "./components/tabs.jsx";
 export function MyPets({ pets }) {
   const token = localStorage.getItem("token");
 
-  const [userPets, setUserPets] = useState([]);
+  const [userAdoptedPets, setUserAdoptedPets] = useState([]);
+  const [userSavedPets, setUserSavedPets] = useState([]);
   const [selectedPet, setSelectedPet] = useState({});
   const [petDetailsAreOpened, setPetDetailsAreOpened] = useState(false);
   const tabs = [
@@ -20,14 +24,14 @@ export function MyPets({ pets }) {
       code: "adopted",
       name: "Adopted Pets",
       href: "#",
-      count: `${userPets.length}`,
+      count: `${userAdoptedPets.length}`,
       current: true,
     },
     {
       code: "saved",
       name: "Saved Pets",
       href: "#",
-      count: `${userPets.length}`,
+      count: `${userSavedPets.length}`,
       current: false,
     },
   ];
@@ -38,21 +42,39 @@ export function MyPets({ pets }) {
       return;
     }
 
-    async function fetchUsersPets() {
-      const response = await getUserPets(token);
+    async function fetchUserAdoptedPets() {
+      const response = await getUserAdoptedPets(token);
 
       if (response.status === 200) {
-        setUserPets(response.data);
+        setUserAdoptedPets(response.data);
       }
       if (response.status === 400) {
         alert("Bad request");
       }
+      if (response.status === 401) {
+        alert("Unauthorized");
+      }
     }
 
-    fetchUsersPets();
+    async function fetchUserSavedPets() {
+      const response = await getUserSavedPets(token);
+
+      if (response.status === 200) {
+        setUserSavedPets(response.data);
+      }
+      if (response.status === 400) {
+        alert("Bad request");
+      }
+      if (response.status === 401) {
+        alert("Unauthorized");
+      }
+    }
+
+    fetchUserAdoptedPets();
+    fetchUserSavedPets();
   }, [token]);
 
-  if (userPets.length !== 0) {
+  if (userAdoptedPets.length !== 0) {
     return (
       // TODO: Refactor pet deatils provider
       <AuthContextProvider>
@@ -78,12 +100,18 @@ export function MyPets({ pets }) {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                   {tab.code === "adopted" ? (
                     <PetsGrid
-                      userPets={userPets}
+                      pets={userAdoptedPets}
                       setSelectedPet={setSelectedPet}
                       setPetDetailsAreOpened={setPetDetailsAreOpened}
+                      tab={tab}
                     />
                   ) : (
-                    "Saved Pets"
+                    <PetsGrid
+                      pets={userSavedPets}
+                      setSelectedPet={setSelectedPet}
+                      setPetDetailsAreOpened={setPetDetailsAreOpened}
+                      tab={tab}
+                    />
                   )}
                 </div>
               </main>

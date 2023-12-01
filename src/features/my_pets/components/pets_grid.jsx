@@ -12,18 +12,24 @@ const people = [
   // More people...
 ];
 
-export function PetsGrid({ userPets, setSelectedPet, setPetDetailsAreOpened }) {
+export function PetsGrid({
+  pets,
+  setSelectedPet,
+  setPetDetailsAreOpened,
+  tab,
+}) {
   return (
     <ul
       role="list"
       className="m-3 grid grid-cols-1 gap-6 sm:grid-cols-2 md:m-0 md:mt-5 lg:m-0 lg:mt-8 lg:grid-cols-3"
     >
-      {userPets.map((pet) => (
+      {pets.map((pet) => (
         <PetCardShort
           key={pet.id}
           pet={pet}
           setPetDetailsAreOpened={setPetDetailsAreOpened}
           onClick={() => setSelectedPet(pet)}
+          tab={tab}
         />
       ))}
     </ul>
