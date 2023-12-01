@@ -1,5 +1,4 @@
 "use client";
-import { Button_L } from "@/components/buttons";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar/navbar";
 import { usePetDetailsContext } from "@/features/pet_details/context/pet_details_context";
@@ -160,15 +159,13 @@ export function SearchPage({ pets }) {
               Find your next friend
             </h1>
             <p className="mt-4 text-base text-gray-500">
-              Checkout out the latest release of Basic Tees, new and improved
-              with four openings!
+              Checkout out the coolest pets!
             </p>
           </div>
 
           <div className="pb-24 pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
             <aside>
               <h2 className="sr-only">Filters</h2>
-
               <button
                 type="button"
                 className="inline-flex items-center lg:hidden"
@@ -182,7 +179,6 @@ export function SearchPage({ pets }) {
                   aria-hidden="true"
                 />
               </button>
-
               <div className="hidden lg:block">
                 <form className="space-y-10 divide-y divide-gray-200">
                   {filters.map((section, sectionIdx) => (
@@ -209,7 +205,13 @@ export function SearchPage({ pets }) {
                   ))}
                 </form>
               </div>
-              <Button_L onClick={searchPets}>Search</Button_L>
+              <button
+                onClick={searchPets}
+                type="button"
+                className="mt-5 rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
+              >
+                Search
+              </button>
             </aside>
 
             <section

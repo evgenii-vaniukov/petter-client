@@ -22,7 +22,7 @@ export const filters = [
     id: "size",
     name: "Size",
     options: [
-      { value: "mini", label: "Mini" },
+      { value: "small", label: "Small" },
       { value: "medium", label: "Medium" },
       { value: "large", label: "Large" },
     ],
