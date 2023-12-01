@@ -1,4 +1,4 @@
-import { returnPetHandler } from "@/utils/handlers";
+import { handleAdopt, handleUnsave, returnPetHandler } from "@/utils/handlers";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
@@ -37,7 +37,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function PetDetails({ open, setOpen, pet }) {
+export function PetDetails({ open, setOpen, pet, tab }) {
   const token = localStorage.getItem("token");
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -160,32 +160,52 @@ export function PetDetails({ open, setOpen, pet }) {
                             </h4>
                           </div>
 
-                          <div className="mt-6">
-                            <button
-                              type="submit"
-                              className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                returnPetHandler(pet.id, token);
-                                setOpen(false);
-                              }}
-                            >
-                              Return
-                            </button>
-                          </div>
+                          {tab.code === "adopted" ? (
+                            <div className="mt-6">
+                              <button
+                                type="submit"
+                                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  returnPetHandler(pet.id, token);
+                                  setOpen(false);
+                                }}
+                              >
+                                Return
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="mt-6">
+                              <button
+                                type="submit"
+                                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleAdopt(pet.id, token);
+                                  handleUnsave(pet.id, token);
+                                  setOpen(false);
+                                }}
+                              >
+                                Adopt
+                              </button>
+                            </div>
+                          )}
 
-                          {/* <p className="absolute left-4 top-4 text-center sm:static sm:mt-6">
-                            <a
-                              href={product.href}
-                              className="font-medium text-red-600 hover:text-red-900"
-                              onClick={() => {
-                                handleDeletePet(pet.id, token);
-                                // setOpen(false);
-                              }}
-                            >
-                              Delete
-                            </a>
-                          </p> */}
+                          {tab.code === "saved" && (
+                            <p className="absolute left-4 top-4 text-center sm:static sm:mt-6">
+                              <a
+                                href={product.href}
+                                className="font-medium text-red-600 hover:text-red-900"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleUnsave(pet.id, token);
+                                  setOpen(false);
+                                }}
+                              >
+                                Unsave
+                              </a>
+                            </p>
+                          )}
                         </form>
                       </section>
                     </div>

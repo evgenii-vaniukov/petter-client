@@ -50,3 +50,16 @@ export function savePet(id, token) {
     return error.response.status;
   }
 }
+
+export function unsavePet(petID, token) {
+  try {
+    const response = api.delete(`/pets/${petID}/save`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    return error.response.status;
+  }
+}

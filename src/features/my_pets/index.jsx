@@ -84,6 +84,7 @@ export function MyPets({ pets }) {
               open={petDetailsAreOpened}
               setOpen={setPetDetailsAreOpened}
               pet={selectedPet}
+              tab={tab}
             />
             <Navbar pets={pets} />
             <div className="py-10">
