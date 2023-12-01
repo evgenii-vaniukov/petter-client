@@ -1,6 +1,7 @@
 import { useAuthContext } from "@/features/auth/context/auth_context";
 import { Menu, Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";
 
@@ -46,17 +47,15 @@ export function ProfileIcon({ iconColor = "text-gray-400" }) {
 
           <Menu.Item>
             {({ active }) => (
-              <a
+              <Link
+                href="/mypets"
                 className={classNames(
                   active ? "bg-gray-100" : "",
                   "block px-4 py-2 text-sm text-gray-700",
                 )}
-                onClick={() => {
-                  router.push("/mypets");
-                }}
               >
                 My Pets
-              </a>
+              </Link>
             )}
           </Menu.Item>
 
