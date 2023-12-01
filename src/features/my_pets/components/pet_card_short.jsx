@@ -1,5 +1,5 @@
 import { useAuthContext } from "@/features/auth/context/auth_context";
-import { handleAdopt, handleUnsave, returnPetHandler } from "@/utils/handlers";
+import { handleAdopt, returnPetHandler } from "@/utils/handlers";
 import { PresentationChartBarIcon, TagIcon } from "@heroicons/react/20/solid";
 
 export function PetCardShort({ pet, setPetDetailsAreOpened, onClick, tab }) {
@@ -59,7 +59,6 @@ export function PetCardShort({ pet, setPetDetailsAreOpened, onClick, tab }) {
                 onClick={(e) => {
                   e.preventDefault();
                   handleAdopt(pet.id, token);
-                  handleUnsave(pet.id, token);
                 }}
               >
                 <TagIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />

@@ -2,7 +2,7 @@
 import { LogIn } from "@/features/auth/components/log_in_modal";
 import { useAuthContext } from "@/features/auth/context/auth_context";
 import { handleAdopt, handleSaveForLater } from "@/utils/handlers";
-import { Dialog, RadioGroup, Transition } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
 const product = {
@@ -127,50 +127,44 @@ export function PetDetails({ open, setOpen, pet }) {
 
                         <form>
                           {/* Colors */}
+                          {/* Type */}
                           <div>
-                            <h4 className="text-sm text-gray-600">Color</h4>
+                            <h4 className="text-sm text-gray-600">
+                              Type: {pet.type}
+                            </h4>
+                          </div>
+                          {/* Size */}
+                          <div>
+                            <h4 className="text-sm text-gray-600">
+                              Size: {pet.size}
+                            </h4>
+                          </div>
+                          {/* Breed */}
+                          <div>
+                            <h4 className="text-sm text-gray-600">
+                              Breed: {pet.breed}
+                            </h4>
+                          </div>
+                          {/* Hypoallergenic */}
+                          <div>
+                            <h4 className="text-sm text-gray-600">
+                              Hypoallergenic:{" "}
+                              {pet.hypoallergenic ? "Yes" : "No"}
+                            </h4>
+                          </div>
 
-                            <RadioGroup
-                              value={selectedColor}
-                              onChange={setSelectedColor}
-                              className="mt-2"
-                            >
-                              <RadioGroup.Label className="sr-only">
-                                Choose a color
-                              </RadioGroup.Label>
-                              <div className="flex items-center space-x-3">
-                                {product.colors.map((color) => (
-                                  <RadioGroup.Option
-                                    key={color.name}
-                                    value={color}
-                                    className={({ active, checked }) =>
-                                      classNames(
-                                        color.selectedColor,
-                                        active && checked
-                                          ? "ring ring-offset-1"
-                                          : "",
-                                        !active && checked ? "ring-2" : "",
-                                        "relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none",
-                                      )
-                                    }
-                                  >
-                                    <RadioGroup.Label
-                                      as="span"
-                                      className="sr-only"
-                                    >
-                                      {color.name}
-                                    </RadioGroup.Label>
-                                    <span
-                                      aria-hidden="true"
-                                      className={classNames(
-                                        color.bgColor,
-                                        "h-8 w-8 rounded-full border border-black border-opacity-10",
-                                      )}
-                                    />
-                                  </RadioGroup.Option>
-                                ))}
-                              </div>
-                            </RadioGroup>
+                          {/* Dietary Restrictions */}
+                          <div>
+                            <h4 className="text-sm text-gray-600">
+                              Dietary Restrictions: {pet.dietaryRestrictions}
+                            </h4>
+                          </div>
+
+                          {/* Colors */}
+                          <div>
+                            <h4 className="text-sm text-gray-600">
+                              Color: {pet.color}
+                            </h4>
                           </div>
 
                           <div className="mt-6">
