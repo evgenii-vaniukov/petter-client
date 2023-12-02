@@ -7,7 +7,7 @@ export const getPets = cache(async () => {
     const response = await api.get("/pets");
     return response.data;
   } catch (error) {
-    console.error("There was an error!");
+    return error.response;
   }
 });
 
@@ -22,7 +22,7 @@ export const getPetsWithFilters = cache(async (filters) => {
     const response = await api.get(`/pets?${query}`);
     return response.data;
   } catch (error) {
-    console.error(error);
+    return error.response;
   }
 });
 
@@ -31,7 +31,7 @@ export const getPetById = cache(async (id) => {
     const response = await api.get(`/pets/${id}`);
     return response.data;
   } catch (error) {
-    console.error(error);
+    return error.response;
   }
 });
 
@@ -42,9 +42,9 @@ export const createPet = async (pet, token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return { status: response.status };
+    return response;
   } catch (error) {
-    return { status: error.response.status };
+    return error.response;
   }
 };
 
@@ -55,9 +55,9 @@ export const updatePet = async (id, pet, token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return { status: response.status };
+    return response;
   } catch (error) {
-    return { status: error.response.status };
+    return error.response;
   }
 };
 
@@ -68,8 +68,8 @@ export const deletePet = async (id, token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return { status: response.status };
+    return response;
   } catch (error) {
-    return { status: error.response.status };
+    return error.response;
   }
 };
