@@ -1,10 +1,8 @@
-"use client";
-import { LogIn } from "@/features/auth/components/log_in_modal";
-import { useAuthContext } from "@/features/auth/context/auth_context";
-import { handleAdopt, handleSaveForLater } from "@/utils/handlers";
+import { handleAdopt, handleUnsave, returnPetHandler } from "@/utils/handlers";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
+
 const product = {
   name: "Zip Tote Basket",
   price: "$220",
@@ -30,23 +28,20 @@ const product = {
   ],
 };
 
+const statuses = {
+  false: "text-green-700 bg-green-50 ring-green-600/20",
+  true: "text-yellow-800 bg-yellow-50 ring-yellow-600/20",
+};
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function PetDetails({ open, setOpen, pet }) {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [logInModalOpen, setLogInModalOpen] = useState(false);
-  const { loggedIn } = useAuthContext();
+export function PetDetails({ open, setOpen, pet, tab }) {
   const token = localStorage.getItem("token");
-
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
-        <LogIn
-          logInModalOpen={logInModalOpen}
-          setLogInModalOpen={setLogInModalOpen}
-        />
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -104,11 +99,14 @@ export function PetDetails({ open, setOpen, pet }) {
                           Product information
                         </h3>
 
-                        {pet.adoptionStatus ? (
-                          <p className="text-sm text-gray-500">Adopted</p>
-                        ) : (
-                          <p className="text-sm text-green-500">Available</p>
-                        )}
+                        <p
+                          className={classNames(
+                            statuses[pet.adoptionStatus],
+                            "mt-0.5 inline-block whitespace-nowrap rounded-md px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset",
+                          )}
+                        >
+                          {pet.adoptionStatus ? "Adopted" : "Available"}
+                        </p>
 
                         <div className="mt-6">
                           <h4 className="sr-only">Description</h4>
@@ -121,12 +119,7 @@ export function PetDetails({ open, setOpen, pet }) {
                         aria-labelledby="options-heading"
                         className="mt-6"
                       >
-                        <h3 id="options-heading" className="sr-only">
-                          Product options
-                        </h3>
-
                         <form>
-                          {/* Colors */}
                           {/* Type */}
                           <div>
                             <h4 className="text-sm text-gray-600">
@@ -167,45 +160,50 @@ export function PetDetails({ open, setOpen, pet }) {
                             </h4>
                           </div>
 
-                          <div className="mt-6">
-                            {loggedIn ? (
+                          {tab.code === "adopted" ? (
+                            <div className="mt-6">
+                              <button
+                                type="submit"
+                                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  returnPetHandler(pet.id, token);
+                                  setOpen(false);
+                                }}
+                              >
+                                Return
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="mt-6">
                               <button
                                 type="submit"
                                 className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                                 onClick={(e) => {
                                   e.preventDefault();
                                   handleAdopt(pet.id, token);
+                                  handleUnsave(pet.id, token);
                                   setOpen(false);
                                 }}
                               >
                                 Adopt
                               </button>
-                            ) : (
-                              <button
-                                type="submit"
-                                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  setLogInModalOpen(true);
-                                }}
-                              >
-                                Login to adopt
-                              </button>
-                            )}
-                          </div>
+                            </div>
+                          )}
 
-                          {loggedIn && (
+                          {tab.code === "saved" && (
                             <p className="absolute left-4 top-4 text-center sm:static sm:mt-6">
-                              <button
-                                className="font-medium text-indigo-600 hover:text-indigo-500"
+                              <a
+                                href={product.href}
+                                className="font-medium text-red-600 hover:text-red-900"
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  handleSaveForLater(pet.id, token);
+                                  handleUnsave(pet.id, token);
                                   setOpen(false);
                                 }}
                               >
-                                Save for later
-                              </button>
+                                Unsave
+                              </a>
                             </p>
                           )}
                         </form>

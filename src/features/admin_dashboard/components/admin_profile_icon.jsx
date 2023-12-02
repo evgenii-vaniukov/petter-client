@@ -1,14 +1,13 @@
 import { useAuthContext } from "@/features/auth/context/auth_context";
 import { Menu, Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-export function ProfileIcon({ iconColor = "text-gray-400" }) {
+export function AdminProfileIcon({ iconColor = "text-gray-400" }) {
   const router = useRouter();
   const { setLoggedIn } = useAuthContext();
   return (
@@ -42,20 +41,6 @@ export function ProfileIcon({ iconColor = "text-gray-400" }) {
               >
                 Your Profile
               </a>
-            )}
-          </Menu.Item>
-
-          <Menu.Item>
-            {({ active }) => (
-              <Link
-                href="/mypets"
-                className={classNames(
-                  active ? "bg-gray-100" : "",
-                  "block px-4 py-2 text-sm text-gray-700",
-                )}
-              >
-                My Pets
-              </Link>
             )}
           </Menu.Item>
 

@@ -16,3 +16,50 @@ export async function adoptPet(id, token) {
     return { status: error.response.status };
   }
 }
+
+export function returnPet(petID: string, token: string) {
+  try {
+    const response = api.post(
+      `/pets/${petID}/return`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response;
+  } catch (error) {
+    return error.response.status;
+  }
+}
+
+export function savePet(id, token) {
+  try {
+    const response = api.post(
+      `/pets/${id}/save`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response;
+  } catch (error) {
+    return error.response.status;
+  }
+}
+
+export function unsavePet(petID, token) {
+  try {
+    const response = api.delete(`/pets/${petID}/save`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    return error.response.status;
+  }
+}

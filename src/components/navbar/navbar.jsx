@@ -9,6 +9,7 @@ import {
   MagnifyingGlassIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import { Fragment, useState } from "react";
 import { PetSearchBar } from "./pet_search_bar";
 
@@ -16,6 +17,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 export function Navbar({ pets }) {
+  // TODO: Stop relying on pets prop
   const [searchBarIsOpened, setSearchBarIsOpened] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [logInModalOpen, setLogInModalOpen] = useState(false);
@@ -80,20 +82,13 @@ export function Navbar({ pets }) {
                 </div>
 
                 {/* Links */}
-                {/* <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                    {navigation.pages.map((page) => {
-                      return (
-                        <div key={page.name} className="flow-root">
-                          <a
-                            href={page.href}
-                            className="-m-2 block p-2 font-medium text-gray-900"
-                          >
-                            {page.name}
-                          </a>
-                        </div>
-                      );
-                    })}
-                  </div> */}
+                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                  <div className="flow-root">
+                    <a className="-m-2 block p-2 font-medium text-gray-900">
+                      Home
+                    </a>
+                  </div>
+                </div>
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
@@ -135,30 +130,35 @@ export function Navbar({ pets }) {
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
-                <a href="#">
-                  <span className="sr-only">Your Company</span>
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                    alt=""
-                  />
-                </a>
+                <span className="sr-only">Your Company</span>
+                <img
+                  className="h-8 w-auto"
+                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                  alt=""
+                />
               </div>
 
               {/* Nav pages */}
-              {/* <div className="hidden lg:ml-8 lg:block lg:self-stretch">
-                  <div className="flex h-full space-x-8">
-                    {navigation.pages.map((page) => (
-                      <a
-                        key={page.name}
-                        href={page.href}
-                        className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                      >
-                        {page.name}
-                      </a>
-                    ))}
-                  </div>
-                </div> */}
+              <div className="hidden lg:ml-8 lg:block lg:self-stretch">
+                <div className="flex h-full space-x-8">
+                  <Link
+                    href="/"
+                    className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                  >
+                    Home
+                  </Link>
+                </div>
+              </div>
+              <div className="hidden lg:ml-8 lg:block lg:self-stretch">
+                <div className="flex h-full space-x-8">
+                  <Link
+                    href="/search"
+                    className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                  >
+                    Search
+                  </Link>
+                </div>
+              </div>
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">

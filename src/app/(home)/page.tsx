@@ -3,9 +3,5 @@ import { getPets } from "@/repository/pet/pet_repository";
 
 export default async function HomePage() {
   const pets = await getPets();
-  return (
-    <div>
-      <Home pets={pets} />
-    </div>
-  );
+  return <Home pets={pets} />;
 }

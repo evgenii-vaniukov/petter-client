@@ -3,7 +3,14 @@ import { useRef } from "react";
 import { useAuthContext } from "../context/auth_context";
 
 export function LogInForm({ setLogInModalOpen, setSignUpModalOpen }) {
-  const { loggedIn, setLoggedIn, setToken } = useAuthContext();
+  const {
+    setLoggedIn,
+    setToken,
+    setRole,
+    setFirstName,
+    setLastName,
+    setEmail,
+  } = useAuthContext();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
@@ -16,8 +23,21 @@ export function LogInForm({ setLogInModalOpen, setSignUpModalOpen }) {
       alert("User already exists");
       return;
     }
+    if (response.status === 401) {
+      alert("Invalid credentials");
+      return;
+    }
+    if (response.status === 500) {
+      alert("Internal server error");
+      return;
+    }
+
     setLoggedIn(true);
     setToken(response.token);
+    setRole(response.role);
+    setFirstName(response.name);
+    setLastName(response.lastName);
+    setEmail(response.email);
     setLogInModalOpen(false);
   }
 
