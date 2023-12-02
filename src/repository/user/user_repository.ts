@@ -9,7 +9,7 @@ export function getUserAdoptedPets(token: string) {
     });
     return response;
   } catch (error) {
-    return error.response.status;
+    return error.response;
   }
 }
 
@@ -22,6 +22,19 @@ export function getUserSavedPets(token: string) {
     });
     return response;
   } catch (error) {
-    return error.response.status;
+    return error.response;
   }
 }
+
+// export function getUserInfo(token: string) {
+//   try {
+//     const response = api.get(`/user`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//     return response;
+//   } catch (error) {
+//     return error.response;
+//   }
+// }
