@@ -35,7 +35,7 @@ export function PetCardShort({ pet, setPetDetailsAreOpened, onClick, tab }) {
         </div>
         <img
           className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
-          src={pet.imageUrl}
+          src={pet.picturePath}
           alt=""
         />
       </div>

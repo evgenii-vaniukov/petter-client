@@ -1,6 +1,10 @@
 "use client";
 import { ProfileIcon } from "@/components/navbar/profile_icon";
 import { useAuthContext } from "@/features/auth/context/auth_context";
+import {
+  updateUserDetails,
+  updateUserPassword,
+} from "@/repository/user/user_repository";
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
@@ -16,25 +20,69 @@ export function UserProfileComponent() {
   const passwordConfirmationRef = useRef("");
   const phoneNumberRef = useRef("");
 
-  async function handleUpdate(event) {
+  async function handleUpdateDetails(event) {
     event.preventDefault();
     const email = emailRef.current.value;
     const firstName = firstNameRef.current.value;
     const lastName = lastNameRef.current.value;
-    const password = passwordRef.current.value;
-    const passwordMatch = passwordConfirmationRef.current.value;
     const phoneNumber = phoneNumberRef.current.value;
 
-    const user = {
-      email,
-      firstName,
-      lastName,
+    const user = {};
+
+    if (email) {
+      user.email = email;
+    }
+    if (firstName) {
+      user.firstName = firstName;
+    }
+    if (lastName) {
+      user.lastName = lastName;
+    }
+
+    if (phoneNumber) {
+      user.phoneNumber = phoneNumber;
+    }
+
+    const response = await updateUserDetails(token, user);
+    if (response.status === 200) {
+      alert("Successfully updated user details");
+    }
+    if (response.status === 409) {
+      alert("User with this email already exists");
+    }
+    if (response.status === 400) {
+      alert("Invalid user details");
+    }
+  }
+
+  async function handleUpdatePassword(event) {
+    event.preventDefault();
+    const password = passwordRef.current.value;
+    const passwordMatch = passwordConfirmationRef.current.value;
+
+    if (password !== passwordMatch) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    if (password.length === 0) {
+      alert("Password cannot be empty");
+      return;
+    }
+
+    const data = {
       password,
       passwordMatch,
-      phoneNumber,
     };
 
-    console.log(user);
+    const response = await updateUserPassword(token, data);
+    if (response.status === 200) {
+      alert("Successfully updated password");
+    }
+
+    if (response.status === 400) {
+      alert("Invalid user details");
+    }
   }
 
   return (
@@ -271,7 +319,7 @@ export function UserProfileComponent() {
                 Personal Information
               </h2>
               <p className="mt-1 text-sm leading-6 text-gray-600">
-                Use a permanent address where you can receive mail.
+                Use a permanent address where you can receive email.
               </p>
             </div>
 
@@ -335,6 +383,62 @@ export function UserProfileComponent() {
                   />
                 </div>
               </div>
+
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="phone-number"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Phone Number
+                </label>
+                <div className="relative mt-2 rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 flex items-center">
+                    <label htmlFor="country" className="sr-only">
+                      Country
+                    </label>
+                    <select
+                      id="country"
+                      name="country"
+                      autoComplete="country"
+                      className="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                    >
+                      <option>ISR</option>
+                      <option>US</option>
+                      <option>CA</option>
+                      <option>EU</option>
+                    </select>
+                  </div>
+                  <input
+                    ref={phoneNumberRef}
+                    type="text"
+                    name="phone-number"
+                    id="phone-number"
+                    className="block w-full rounded-md border-0 py-1.5 pl-16 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="+972 00 0000000"
+                  />
+                </div>
+
+                <div className="mt-6 flex items-center justify-end gap-x-6">
+                  <button
+                    type="submit"
+                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={handleUpdateDetails}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+            <div>
+              <h2 className="text-base font-semibold leading-7 text-gray-900">
+                Change Password
+              </h2>
+            </div>
+
+            <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
               <div className="sm:col-span-4">
                 <label
                   htmlFor="email"
@@ -370,59 +474,19 @@ export function UserProfileComponent() {
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
-              </div>
-              <div className="sm:col-span-4">
-                <label
-                  htmlFor="phone-number"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Phone Number
-                </label>
-                <div className="relative mt-2 rounded-md shadow-sm">
-                  <div className="absolute inset-y-0 left-0 flex items-center">
-                    <label htmlFor="country" className="sr-only">
-                      Country
-                    </label>
-                    <select
-                      id="country"
-                      name="country"
-                      autoComplete="country"
-                      className="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                    >
-                      <option>ISR</option>
-                      <option>US</option>
-                      <option>CA</option>
-                      <option>EU</option>
-                    </select>
-                  </div>
-                  <input
-                    ref={phoneNumberRef}
-                    type="text"
-                    name="phone-number"
-                    id="phone-number"
-                    className="block w-full rounded-md border-0 py-1.5 pl-16 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="+972 00 0000000"
-                  />
+
+                <div className="mt-6 flex items-center justify-end gap-x-6">
+                  <button
+                    type="submit"
+                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={handleUpdatePassword}
+                  >
+                    Save
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button
-            type="button"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={handleUpdate}
-          >
-            Save
-          </button>
         </div>
       </form>
     </>

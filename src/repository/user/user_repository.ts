@@ -25,16 +25,29 @@ export function getUserSavedPets(token: string) {
     return error.response;
   }
 }
+export async function updateUserDetails(token: string, data: any) {
+  try {
+    const response = await api.put(`/user/details`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(token);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
 
-// export function getUserInfo(token: string) {
-//   try {
-//     const response = api.get(`/user`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return response;
-//   } catch (error) {
-//     return error.response;
-//   }
-// }
+export async function updateUserPassword(token: string, data: any) {
+  try {
+    const response = await api.put(`/user/password`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}

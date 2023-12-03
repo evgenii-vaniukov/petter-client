@@ -5,15 +5,15 @@ export function PetCard({ pet, onClick }) {
       onClick={onClick}
     >
       <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
-        {/* <img
-          src={pet.imageSrc}
-          alt={pet.imageAlt}
+        <img
+          src={pet.picturePath}
+          alt="Failed to load image"
           className="h-full w-full object-cover object-center sm:h-full sm:w-full"
-        /> */}
+        />
       </div>
       <div className="flex flex-1 flex-col space-y-2 p-4">
         <h3 className="text-sm font-medium text-gray-900">
-          <a href={pet.href}>
+          <a>
             <span aria-hidden="true" className="absolute inset-0" />
             {pet.name}
           </a>

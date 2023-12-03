@@ -35,7 +35,6 @@ function classNames(...classes) {
 }
 
 export function PetDetails({ open, setOpen, pet }) {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [logInModalOpen, setLogInModalOpen] = useState(false);
   const { loggedIn } = useAuthContext();
   const token = localStorage.getItem("token");
@@ -85,8 +84,8 @@ export function PetDetails({ open, setOpen, pet }) {
                     <div className="sm:col-span-4 lg:col-span-5">
                       <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100">
                         <img
-                          src={product.imageSrc}
-                          alt={product.imageAlt}
+                          src={pet.picturePath}
+                          alt="Failed to load image"
                           className="object-cover object-center"
                         />
                       </div>
