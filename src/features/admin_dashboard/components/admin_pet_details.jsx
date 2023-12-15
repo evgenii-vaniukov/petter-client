@@ -80,8 +80,7 @@ export function AdminPetDetails({ open, setOpen, pet, setEditPetIsOpen }) {
                     <div className="sm:col-span-4 lg:col-span-5">
                       <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100">
                         <img
-                          src={product.imageSrc}
-                          alt={product.imageAlt}
+                          src={pet.picturePath}
                           className="object-cover object-center"
                         />
                       </div>

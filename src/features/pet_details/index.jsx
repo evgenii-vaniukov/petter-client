@@ -35,7 +35,6 @@ function classNames(...classes) {
 }
 
 export function PetDetails({ open, setOpen, pet }) {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [logInModalOpen, setLogInModalOpen] = useState(false);
   const { loggedIn } = useAuthContext();
   const token = localStorage.getItem("token");
@@ -85,8 +84,8 @@ export function PetDetails({ open, setOpen, pet }) {
                     <div className="sm:col-span-4 lg:col-span-5">
                       <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100">
                         <img
-                          src={product.imageSrc}
-                          alt={product.imageAlt}
+                          src={pet.picturePath}
+                          alt="Failed to load image"
                           className="object-cover object-center"
                         />
                       </div>
@@ -169,17 +168,19 @@ export function PetDetails({ open, setOpen, pet }) {
 
                           <div className="mt-6">
                             {loggedIn ? (
-                              <button
-                                type="submit"
-                                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  handleAdopt(pet.id, token);
-                                  setOpen(false);
-                                }}
-                              >
-                                Adopt
-                              </button>
+                              !pet.adoptionStatus && (
+                                <button
+                                  type="submit"
+                                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    handleAdopt(pet.id, token);
+                                    setOpen(false);
+                                  }}
+                                >
+                                  Adopt
+                                </button>
+                              )
                             ) : (
                               <button
                                 type="submit"
@@ -194,7 +195,7 @@ export function PetDetails({ open, setOpen, pet }) {
                             )}
                           </div>
 
-                          {loggedIn && (
+                          {loggedIn && !pet.adoptionStatus && (
                             <p className="absolute left-4 top-4 text-center sm:static sm:mt-6">
                               <button
                                 className="font-medium text-indigo-600 hover:text-indigo-500"

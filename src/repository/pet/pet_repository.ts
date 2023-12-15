@@ -1,6 +1,5 @@
 import { cache } from "react";
 import { api } from "../api";
-// TODO: Check all try catch blocks
 
 export const getPets = cache(async () => {
   try {

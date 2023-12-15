@@ -2,7 +2,14 @@ import { signup } from "@/repository/auth/auth_repository";
 import { useRef } from "react";
 import { useAuthContext } from "../context/auth_context";
 export function SignUpForm({ setSignUpModalOpen }) {
-  const { setLoggedIn, setToken, setRole } = useAuthContext();
+  const {
+    setLoggedIn,
+    setToken,
+    setRole,
+    setFirstName,
+    setLastName,
+    setEmail,
+  } = useAuthContext();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const passwordMatchRef = useRef(null);
@@ -38,6 +45,9 @@ export function SignUpForm({ setSignUpModalOpen }) {
     setLoggedIn(true);
     setToken(response.token);
     setRole(response.role);
+    setFirstName(response.firstName);
+    setLastName(response.lastName);
+    setEmail(response.email);
     setSignUpModalOpen(false);
   }
 

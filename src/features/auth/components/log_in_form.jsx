@@ -19,6 +19,7 @@ export function LogInForm({ setLogInModalOpen, setSignUpModalOpen }) {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     const response = await login(email, password);
+    console.log(emailRef.current);
     if (response.status === 409) {
       alert("User already exists");
       return;

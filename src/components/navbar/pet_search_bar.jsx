@@ -108,7 +108,7 @@ export function PetSearchBar({ open, setOpen, pets }) {
                                   {({ active }) => (
                                     <>
                                       <img
-                                        src={pet.imageUrl}
+                                        src={pet.picturePath}
                                         alt=""
                                         className="h-6 w-6 flex-none rounded-full"
                                       />
@@ -133,7 +133,7 @@ export function PetSearchBar({ open, setOpen, pets }) {
                           <div className="hidden h-96 w-1/2 flex-none flex-col divide-y divide-gray-100 overflow-y-auto sm:flex">
                             <div className="flex-none p-6 text-center">
                               <img
-                                src={activeOption.imageUrl}
+                                src={activeOption.picturePath}
                                 alt=""
                                 className="mx-auto h-16 w-16 rounded-full"
                               />
@@ -153,25 +153,19 @@ export function PetSearchBar({ open, setOpen, pets }) {
                                   {activeOption.adoptionStatus.toString()}
                                 </dd>
                                 <dt className="col-end-1 font-semibold text-gray-900">
-                                  URL
+                                  Color
                                 </dt>
                                 <dd className="truncate">
-                                  <a
-                                    href={activeOption.url}
-                                    className="text-indigo-600 underline"
-                                  >
-                                    {activeOption.url}
+                                  <a className="text-indigo-600 underline">
+                                    {activeOption.color}
                                   </a>
                                 </dd>
                                 <dt className="col-end-1 font-semibold text-gray-900">
-                                  Email
+                                  Breed
                                 </dt>
                                 <dd className="truncate">
-                                  <a
-                                    href={`mailto:${activeOption.email}`}
-                                    className="text-indigo-600 underline"
-                                  >
-                                    {activeOption.email}
+                                  <a className="text-indigo-600 underline">
+                                    {activeOption.breed}
                                   </a>
                                 </dd>
                               </dl>

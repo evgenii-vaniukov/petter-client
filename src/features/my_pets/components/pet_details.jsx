@@ -80,8 +80,7 @@ export function PetDetails({ open, setOpen, pet, tab }) {
                     <div className="sm:col-span-4 lg:col-span-5">
                       <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100">
                         <img
-                          src={product.imageSrc}
-                          alt={product.imageAlt}
+                          src={pet.picturePath}
                           className="object-cover object-center"
                         />
                       </div>
@@ -182,7 +181,7 @@ export function PetDetails({ open, setOpen, pet, tab }) {
                                 onClick={(e) => {
                                   e.preventDefault();
                                   handleAdopt(pet.id, token);
-                                  handleUnsave(pet.id, token);
+                                  // handleUnsave(pet.id, token);
                                   setOpen(false);
                                 }}
                               >
