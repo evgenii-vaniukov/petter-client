@@ -46,15 +46,15 @@ export function AdminPetsList({
             </div>
           </div>
           <div className="flex flex-none items-center gap-x-4">
-            <a
+            <button
               className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
               onClick={() => {
                 setSelectedPet(pet);
                 setPetDetailsAreOpened(true);
               }}
             >
-              View pet<span className="sr-only">, {pet.name}</span>
-            </a>
+              View pet
+            </button>
             <Menu as="div" className="relative flex-none">
               <Menu.Button className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
                 <span className="sr-only">Open options</span>
